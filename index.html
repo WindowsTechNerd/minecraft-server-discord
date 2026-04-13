@@ -2,577 +2,214 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ThinkPad X1 Carbon 4th Gen – OpenCore EFI Guide</title>
+    <title>ThinkPad X1 Carbon 4th Gen – Catalina OpenCore EFI Guide</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Modern minimal styling -->
     <style>
         :root {
-            --bg: #050816;
-            --bg-alt: #0b1020;
+            --bg: #05070f;
+            --bg2: #0c1220;
             --card: #111827;
             --accent: #3b82f6;
-            --accent-soft: rgba(59,130,246,0.15);
+            --accent2: #a855f7;
             --text: #e5e7eb;
             --muted: #9ca3af;
             --border: #1f2937;
-            --code-bg: #020617;
-            --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-        }
-
-        * {
-            box-sizing: border-box;
+            --code: #0a0f1a;
+            --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
 
         body {
             margin: 0;
-            font-family: var(--font-main);
+            font-family: var(--sans);
             background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
             color: var(--text);
             line-height: 1.6;
         }
 
-        a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
         header {
             position: sticky;
             top: 0;
-            z-index: 20;
-            backdrop-filter: blur(16px);
-            background: linear-gradient(to bottom, rgba(3,7,18,0.95), rgba(3,7,18,0.7));
+            backdrop-filter: blur(12px);
+            background: rgba(3,7,18,0.85);
             border-bottom: 1px solid var(--border);
+            z-index: 10;
         }
 
-        .nav {
+        nav {
             max-width: 960px;
-            margin: 0 auto;
+            margin: auto;
             padding: 0.75rem 1.25rem;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-        }
-
-        .nav-left {
-            display: flex;
             align-items: center;
-            gap: 0.5rem;
         }
 
-        .logo-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 999px;
-            background: radial-gradient(circle at 30% 30%, #60a5fa, #1d4ed8);
-            box-shadow: 0 0 18px rgba(59,130,246,0.8);
-        }
-
-        .nav-title {
-            font-weight: 600;
-            letter-spacing: 0.03em;
-            font-size: 0.95rem;
-            text-transform: uppercase;
+        nav a {
             color: var(--muted);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1rem;
+            margin-left: 1rem;
+            text-decoration: none;
             font-size: 0.9rem;
         }
 
-        .nav-links a {
-            color: var(--muted);
-        }
-
-        .nav-links a:hover {
+        nav a:hover {
             color: var(--text);
         }
 
-        main {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 1.5rem 1.25rem 3rem;
-        }
-
         .hero {
-            padding: 2.5rem 0 2rem;
-            display: grid;
-            grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-            gap: 2rem;
-            align-items: center;
+            max-width: 960px;
+            margin: auto;
+            padding: 2.5rem 1.25rem 2rem;
         }
 
-        @media (max-width: 800px) {
-            .hero {
-                grid-template-columns: minmax(0, 1fr);
-            }
-        }
-
-        .hero-title {
-            font-size: clamp(2.1rem, 3vw, 2.6rem);
+        .hero h1 {
+            font-size: clamp(2rem, 3vw, 2.6rem);
             font-weight: 700;
-            letter-spacing: 0.02em;
         }
 
-        .hero-title span {
-            background: linear-gradient(to right, #60a5fa, #a855f7);
+        .hero span {
+            background: linear-gradient(to right, var(--accent), var(--accent2));
             -webkit-background-clip: text;
             color: transparent;
         }
 
-        .hero-subtitle {
-            margin-top: 0.75rem;
+        .hero p {
             color: var(--muted);
-            max-width: 32rem;
-        }
-
-        .hero-tags {
-            margin-top: 1rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            max-width: 40rem;
         }
 
         .tag {
-            font-size: 0.75rem;
+            display: inline-block;
             padding: 0.25rem 0.6rem;
             border-radius: 999px;
             border: 1px solid rgba(148,163,184,0.4);
             color: var(--muted);
-            background: rgba(15,23,42,0.8);
-        }
-
-        .hero-card {
-            border-radius: 1rem;
-            padding: 1.25rem;
-            background: radial-gradient(circle at top left, rgba(59,130,246,0.25), transparent 55%),
-                        radial-gradient(circle at bottom right, rgba(168,85,247,0.25), transparent 55%),
-                        var(--card);
-            border: 1px solid rgba(148,163,184,0.35);
-            box-shadow: 0 18px 45px rgba(15,23,42,0.9);
-        }
-
-        .hero-card-title {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--muted);
-            margin-bottom: 0.75rem;
-        }
-
-        .hero-card-body {
-            font-size: 0.9rem;
-        }
-
-        .hero-card-body strong {
-            color: #e5e7eb;
-        }
-
-        .hero-card-meta {
-            margin-top: 0.75rem;
-            font-size: 0.8rem;
-            color: var(--muted);
+            margin-right: 0.4rem;
+            font-size: 0.75rem;
         }
 
         section {
-            margin-top: 2.5rem;
+            max-width: 960px;
+            margin: auto;
+            padding: 1.5rem 1.25rem;
         }
 
-        section h2 {
+        h2 {
             font-size: 1.3rem;
             margin-bottom: 0.75rem;
-            letter-spacing: 0.04em;
             text-transform: uppercase;
-            color: #d1d5db;
-        }
-
-        .section-muted {
-            color: var(--muted);
-            font-size: 0.95rem;
-            max-width: 40rem;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1rem;
-            margin-top: 1.25rem;
+            letter-spacing: 0.05em;
         }
 
         .card {
-            background: var(--bg-alt);
-            border-radius: 0.9rem;
+            background: var(--bg2);
             border: 1px solid var(--border);
-            padding: 1rem 1.1rem;
-        }
-
-        .card h3 {
-            margin-top: 0;
-            font-size: 1rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .card p {
-            margin: 0.25rem 0;
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
-
-        .pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-size: 0.75rem;
-            padding: 0.15rem 0.55rem;
-            border-radius: 999px;
-            background: rgba(15,23,42,0.9);
-            border: 1px solid rgba(55,65,81,0.9);
-            color: var(--muted);
-        }
-
-        .pill-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 999px;
-            background: #22c55e;
-        }
-
-        .pill-dot-bad {
-            background: #ef4444;
-        }
-
-        .step-list {
-            margin-top: 1rem;
-            padding-left: 1.1rem;
-        }
-
-        .step-list li {
-            margin-bottom: 0.6rem;
-            font-size: 0.95rem;
-        }
-
-        .step-label {
-            font-weight: 600;
-            color: #e5e7eb;
+            border-radius: 0.8rem;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
         }
 
         pre {
-            margin: 0.75rem 0;
-            padding: 0.75rem 0.9rem;
+            background: var(--code);
+            border: 1px solid var(--border);
+            padding: 0.75rem;
             border-radius: 0.6rem;
-            background: var(--code-bg);
-            border: 1px solid rgba(31,41,55,0.9);
             overflow-x: auto;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: #e5e7eb;
-        }
-
-        code {
-            font-family: var(--font-mono);
+            font-family: var(--mono);
+            font-size: 0.85rem;
         }
 
         .callout {
-            margin-top: 0.9rem;
-            padding: 0.75rem 0.9rem;
-            border-radius: 0.6rem;
-            border: 1px solid rgba(59,130,246,0.5);
-            background: var(--accent-soft);
-            font-size: 0.85rem;
-            color: #dbeafe;
-        }
-
-        .callout-warn {
-            border-color: rgba(248,113,113,0.7);
-            background: rgba(127,29,29,0.35);
-            color: #fecaca;
+            background: rgba(59,130,246,0.15);
+            border-left: 3px solid var(--accent);
+            padding: 0.75rem 1rem;
+            border-radius: 0.4rem;
+            margin: 0.75rem 0;
         }
 
         footer {
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
-            font-size: 0.8rem;
-            color: var(--muted);
             text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+            font-size: 0.85rem;
         }
     </style>
 </head>
+
 <body>
 
 <header>
-    <div class="nav">
-        <div class="nav-left">
-            <div class="logo-dot"></div>
-            <div class="nav-title">ThinkPad X1C4 · OpenCore EFI</div>
-        </div>
-        <nav class="nav-links">
+    <nav>
+        <div><strong>ThinkPad X1C4 EFI</strong></div>
+        <div>
             <a href="#about">About</a>
             <a href="#hardware">Hardware</a>
-            <a href="#guide">Build Guide</a>
-            <a href="#postinstall">Post‑Install</a>
-        </nav>
-    </div>
+            <a href="#guide">Guide</a>
+            <a href="#post">Post‑Install</a>
+        </div>
+    </nav>
 </header>
 
-<main>
-    <!-- Hero -->
-    <section class="hero">
-        <div>
-            <h1 class="hero-title">
-                A modern OpenCore EFI guide for<br>
-                <span>ThinkPad X1 Carbon 4th Gen</span>
-            </h1>
-            <p class="hero-subtitle">
-                This site walks you through building a clean, reproducible OpenCore EFI for the ThinkPad X1 Carbon
-                4th Gen—from BIOS setup to kext selection, SMBIOS configuration, and post‑install polish.
-            </p>
-            <div class="hero-tags">
-                <span class="tag">OpenCore</span>
-                <span class="tag">Hackintosh</span>
-                <span class="tag">ThinkPad X1C4</span>
-                <span class="tag">Intel Wi‑Fi</span>
-                <span class="tag">macOS</span>
-            </div>
-        </div>
-        <aside class="hero-card">
-            <div class="hero-card-title">EFI Snapshot</div>
-            <div class="hero-card-body">
-                <p><strong>Target machine:</strong> ThinkPad X1 Carbon 4th Gen</p>
-                <p><strong>Bootloader:</strong> OpenCore (0.9.x+)</p>
-                <p><strong>Wi‑Fi:</strong> Intel Dual Band Wireless‑AC 8260</p>
-                <p><strong>Bluetooth:</strong> Intel (with firmware + fixes)</p>
-                <p><strong>macOS:</strong> Big Sur / Monterey / Ventura (depending on kexts)</p>
-            </div>
-            <div class="hero-card-meta">
-                This guide assumes you’re comfortable editing plist files and mounting EFI partitions, but it explains
-                each decision so you can tweak and debug confidently.
-            </div>
-        </aside>
-    </section>
+<div class="hero">
+    <h1>OpenCore EFI Guide for<br><span>ThinkPad X1 Carbon 4th Gen</span></h1>
+    <p>A complete, Catalina‑optimized EFI build guide for the ThinkPad X1C4. Stable Wi‑Fi, Bluetooth, audio, sleep, and full DRM support.</p>
 
-    <!-- About -->
-    <section id="about">
-        <h2>About this EFI</h2>
-        <p class="section-muted">
-            The goal of this guide is not just to give you a pre‑built EFI, but to show you how to assemble one
-            yourself. That way, when macOS, OpenCore, or your kexts update, you understand what to change and why.
-        </p>
+    <div style="margin-top:1rem;">
+        <span class="tag">macOS Catalina</span>
+        <span class="tag">OpenCore</span>
+        <span class="tag">Intel Wi‑Fi</span>
+        <span class="tag">Hackintosh</span>
+    </div>
+</div>
 
-        <div class="grid">
-            <div class="card">
-                <h3>What you get</h3>
-                <p>• A structured EFI layout for OpenCore</p>
-                <p>• Recommended kext set for Intel Wi‑Fi + Bluetooth</p>
-                <p>• BIOS configuration checklist</p>
-                <p>• SMBIOS guidance for Apple services</p>
-            </div>
-            <div class="card">
-                <h3>What works</h3>
-                <p>• Wi‑Fi, Bluetooth, Airdrop, Handoff, Continuity</p>
-                <p>• Battery reporting, sleep (with tuning), trackpad, audio</p>
-                <p>• Sidecar (wireless) with supported macOS versions</p>
-            </div>
-            <div class="card">
-                <h3>Known limitations</h3>
-                <p>• Safari DRM (Apple TV+, Netflix, etc.) is unreliable</p>
-                <p>• Use Chromium‑based browsers for streaming DRM content</p>
-            </div>
-        </div>
-    </section>
+<section id="about">
+    <h2>About This EFI</h2>
+    <div class="card">
+        This guide teaches you how to build a clean, stable EFI for macOS Catalina (10.15) on the ThinkPad X1 Carbon 4th Gen.
+        Catalina is the newest macOS version with full support for:
+        <ul>
+            <li>Intel Wi‑Fi (itlwm Catalina build)</li>
+            <li>Intel Bluetooth (Firmware + Injector)</li>
+            <li>Skylake iGPU acceleration</li>
+            <li>Safari DRM (Netflix, Apple TV+, Prime Video)</li>
+        </ul>
+    </div>
+</section>
 
-    <!-- Hardware -->
-    <section id="hardware">
-        <h2>Hardware profile</h2>
-        <p class="section-muted">
-            This EFI is tuned for a specific X1C4 configuration. If your hardware differs (especially Wi‑Fi / Bluetooth),
-            you may need to swap or remove some kexts.
-        </p>
+<section id="hardware">
+    <h2>Hardware Profile</h2>
 
-        <div class="grid">
-            <div class="card">
-                <h3>Core specs</h3>
-                <p>• ThinkPad X1 Carbon 4th Gen</p>
-                <p>• Intel CPU (Skylake)</p>
-                <p>• Integrated Intel graphics</p>
-                <p>• 8–16 GB RAM</p>
-            </div>
-            <div class="card">
-                <h3>Networking</h3>
-                <p>• Intel Dual Band Wireless‑AC 8260NGW</p>
-                <p>• Intel Bluetooth (same module)</p>
-                <p class="pill"><span class="pill-dot"></span> Supported with itlwm + BT kexts</p>
-            </div>
-            <div class="card">
-                <h3>Peripherals</h3>
-                <p>• Conexant CX11852 audio codec</p>
-                <p>• 720p integrated webcam</p>
-                <p>• ThinkPad keyboard + trackpoint</p>
-            </div>
-        </div>
-    </section>
+    <div class="card">
+        <strong>Supported configuration:</strong>
+        <ul>
+            <li>ThinkPad X1 Carbon 4th Gen</li>
+            <li>Intel Skylake CPU</li>
+            <li>Intel HD Graphics</li>
+            <li>Intel Dual Band Wireless‑AC 8260</li>
+            <li>Intel Bluetooth</li>
+            <li>Conexant CX11852 audio</li>
+        </ul>
+    </div>
+</section>
 
-    <!-- Guide -->
-    <section id="guide">
-        <h2>Step‑by‑step EFI build guide</h2>
-        <p class="section-muted">
-            Follow these steps in order. Don’t copy random EFIs from the internet—build yours intentionally so you can
-            debug it when something breaks.
-        </p>
+<section id="guide">
+    <h2>EFI Build Guide (Catalina)</h2>
 
-        <ol class="step-list">
-            <li>
-                <span class="step-label">1. Prepare BIOS settings</span><br>
-                Enter BIOS and configure:
-                <ul>
-                    <li>Disable Secure Boot</li>
-                    <li>Set SATA mode to AHCI</li>
-                    <li>Enable UEFI boot (no Legacy)</li>
-                    <li>Disable Intel RST / RAID if present</li>
-                </ul>
-                <div class="callout">
-                    Tip: Take photos of your original BIOS settings so you can revert if needed.
-                </div>
-            </li>
+    <div class="card">
+        <h3>1. BIOS Setup</h3>
+        <ul>
+            <li>Disable Secure Boot</li>
+            <li>Enable UEFI only</li>
+            <li>Disable Legacy Boot</li>
+            <li>Set SATA to AHCI</li>
+        </ul>
+    </div>
 
-            <li>
-                <span class="step-label">2. Create the macOS installer</span><br>
-                On a real Mac or working Hackintosh:
-                <pre><code># Example (Big Sur)
-sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia \
-  --volume /Volumes/MyUSB</code></pre>
-                Then mount the USB’s EFI partition and create an <code>EFI</code> folder on it.
-            </li>
+    <div class="card">
+        <h3>2. Create Catalina Installer</h3>
+        <pre>sudo /Applications/Install\ macOS\ Catalina.app/Contents/Resources/createinstallmedia --volume /Volumes/USB</pre>
+    </div>
 
-            <li>
-                <span class="step-label">3. Add OpenCore base files</span><br>
-                Download the latest OpenCore release matching your CPU generation, then copy:
-                <pre><code>EFI/
-  BOOT/
-    BOOTx64.efi
-  OC/
-    OpenCore.efi
-    Drivers/
-    Kexts/
-    ACPI/
-    config.plist</code></pre>
-                Start from the sample config for your platform (Skylake) from the official OpenCore guide.
-            </li>
-
-            <li>
-                <span class="step-label">4. Add required kexts</span><br>
-                At minimum, you’ll want:
-                <ul>
-                    <li><code>Lilu.kext</code></li>
-                    <li><code>VirtualSMC.kext</code> (+ optional sensors plugins)</li>
-                    <li><code>WhateverGreen.kext</code></li>
-                    <li><code>AppleALC.kext</code> (for Conexant audio)</li>
-                    <li><code>VoodooPS2Controller.kext</code> (keyboard/trackpad)</li>
-                </ul>
-                Place them in:
-                <pre><code>EFI/OC/Kexts/</code></pre>
-            </li>
-
-            <li>
-                <span class="step-label">5. Configure Wi‑Fi kexts (Intel)</span><br>
-                For the Intel 8260 card, you can choose between:
-                <ul>
-                    <li><code>AirportItlwm.kext</code> – integrates with native Wi‑Fi menu</li>
-                    <li><code>itlwm.kext</code> – often more stable, used with HeliPort app</li>
-                </ul>
-                Download from the official OpenIntelWireless releases and place your chosen kext in:
-                <pre><code>EFI/OC/Kexts/</code></pre>
-                <div class="callout">
-                    Make sure you pick the correct build for your macOS version (e.g. Big Sur vs Ventura).
-                </div>
-            </li>
-
-            <li>
-                <span class="step-label">6. Configure Bluetooth kexts</span><br>
-                For Intel Bluetooth, you’ll typically use:
-                <ul>
-                    <li><code>IntelBluetoothFirmware.kext</code></li>
-                    <li><code>IntelBluetoothInjector.kext</code> (for older macOS)</li>
-                </ul>
-                Place them in <code>EFI/OC/Kexts</code> and enable them in <code>config.plist</code> under
-                <code>Kernel → Add</code>.
-            </li>
-
-            <li>
-                <span class="step-label">7. Add ACPI patches</span><br>
-                Use SSDTs generated or recommended for:
-                <ul>
-                    <li>EC (Embedded Controller)</li>
-                    <li>USB mapping</li>
-                    <li>Power management (if applicable)</li>
-                </ul>
-                Place them in:
-                <pre><code>EFI/OC/ACPI/</code></pre>
-                and reference them in <code>config.plist → ACPI → Add</code>.
-            </li>
-
-            <li>
-                <span class="step-label">8. Configure SMBIOS</span><br>
-                For this machine, a common choice is:
-                <pre><code>SystemProductName: MacBookPro13,1</code></pre>
-                Use GenSMBIOS to generate:
-                <ul>
-                    <li>Serial Number</li>
-                    <li>Board Serial (MLB)</li>
-                    <li>System UUID</li>
-                    <li>ROM (usually your MAC address)</li>
-                </ul>
-                <div class="callout-warn">
-                    Never reuse someone else’s SMBIOS. Always generate your own to avoid Apple ID / iCloud issues.
-                </div>
-            </li>
-
-            <li>
-                <span class="step-label">9. Install macOS</span><br>
-                Boot from the USB, select the OpenCore entry, and install macOS to your target drive. After installation,
-                mount the internal disk’s EFI partition and copy your working EFI from the USB to the internal drive.
-            </li>
-
-            <li>
-                <span class="step-label">10. Refine and debug</span><br>
-                Once macOS boots:
-                <ul>
-                    <li>Test Wi‑Fi, Bluetooth, audio, sleep, and battery reporting</li>
-                    <li>Check logs if something fails (OpenCore debug builds can help)</li>
-                    <li>Update kexts and OpenCore periodically following the same structure</li>
-                </ul>
-            </li>
-        </ol>
-    </section>
-
-    <!-- Post-install -->
-    <section id="postinstall">
-        <h2>Post‑install notes</h2>
-        <p class="section-muted">
-            After you have a stable system, keep a backup of your working EFI and avoid updating everything at once.
-            Change one thing at a time so you always know what broke—or what fixed—your setup.
-        </p>
-
-        <div class="card">
-            <h3>Streaming & DRM</h3>
-            <p>Safari DRM is often broken on Hackintosh systems with Intel Wi‑Fi. If Apple TV+, Netflix, or Prime Video
-               don’t work in Safari, use a Chromium‑based browser (Chrome, Edge, Brave, etc.).</p>
-        </div>
-    </section>
-
-    <footer>
-        Built for ThinkPad X1 Carbon 4th Gen · OpenCore EFI guide<br>
-        You can adapt this layout for your own hardware and publish it via GitHub Pages.
-    </footer>
-</main>
-
-</body>
-</html>
+    <div class="card">
+        <h3>3. Add
