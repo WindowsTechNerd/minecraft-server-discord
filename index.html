@@ -212,4 +212,73 @@
     </div>
 
     <div class="card">
-        <h3>3. Add
+        <h3>3. Add OpenCore Base Files</h3>
+        <pre>
+EFI/
+  BOOT/BOOTx64.efi
+  OC/
+    OpenCore.efi
+    ACPI/
+    Kexts/
+    Drivers/
+    config.plist
+        </pre>
+    </div>
+
+    <div class="card">
+        <h3>4. Required Kexts</h3>
+        <ul>
+            <li>Lilu.kext</li>
+            <li>VirtualSMC.kext</li>
+            <li>WhateverGreen.kext</li>
+            <li>AppleALC.kext</li>
+            <li>VoodooPS2Controller.kext</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>5. Wi‑Fi (Catalina)</h3>
+        <p>Use the Catalina build of:</p>
+        <pre>itlwm.kext</pre>
+        <div class="callout">Do NOT use AirportItlwm — that is for Big Sur and newer.</div>
+    </div>
+
+    <div class="card">
+        <h3>6. Bluetooth</h3>
+        <pre>
+IntelBluetoothFirmware.kext
+IntelBluetoothInjector.kext
+        </pre>
+    </div>
+
+    <div class="card">
+        <h3>7. SMBIOS</h3>
+        <pre>MacBookPro13,1</pre>
+        <p>Generate using GenSMBIOS:</p>
+        <ul>
+            <li>Serial Number</li>
+            <li>MLB</li>
+            <li>System UUID</li>
+            <li>ROM (MAC address)</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>8. Install macOS</h3>
+        <p>Boot from USB → Install Catalina → Copy EFI to internal drive.</p>
+    </div>
+</section>
+
+<section id="post">
+    <h2>Post‑Install Notes</h2>
+    <div class="card">
+        <p>Catalina provides the best stability for Skylake ThinkPads. DRM works, Intel Wi‑Fi is stable, and Bluetooth pairing is reliable.</p>
+    </div>
+</section>
+
+<footer>
+    ThinkPad X1 Carbon 4th Gen · Catalina EFI Guide · Powered by GitHub Pages
+</footer>
+
+</body>
+</html>
