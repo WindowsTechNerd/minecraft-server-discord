@@ -1,284 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="auto">
 <head>
     <meta charset="UTF-8">
-    <title>ThinkPad X1 Carbon 4th Gen – Catalina OpenCore EFI Guide</title>
+    <title>ThinkPad X1C4 Catalina EFI Guide</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <style>
-        :root {
-            --bg: #05070f;
-            --bg2: #0c1220;
-            --card: #111827;
-            --accent: #3b82f6;
-            --accent2: #a855f7;
-            --text: #e5e7eb;
-            --muted: #9ca3af;
-            --border: #1f2937;
-            --code: #0a0f1a;
-            --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        }
-
-        body {
-            margin: 0;
-            font-family: var(--sans);
-            background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
-            color: var(--text);
-            line-height: 1.6;
-        }
-
-        header {
-            position: sticky;
-            top: 0;
-            backdrop-filter: blur(12px);
-            background: rgba(3,7,18,0.85);
-            border-bottom: 1px solid var(--border);
-            z-index: 10;
-        }
-
-        nav {
-            max-width: 960px;
-            margin: auto;
-            padding: 0.75rem 1.25rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav a {
-            color: var(--muted);
-            margin-left: 1rem;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-
-        nav a:hover {
-            color: var(--text);
-        }
-
-        .hero {
-            max-width: 960px;
-            margin: auto;
-            padding: 2.5rem 1.25rem 2rem;
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 3vw, 2.6rem);
-            font-weight: 700;
-        }
-
-        .hero span {
-            background: linear-gradient(to right, var(--accent), var(--accent2));
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .hero p {
-            color: var(--muted);
-            max-width: 40rem;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 0.25rem 0.6rem;
-            border-radius: 999px;
-            border: 1px solid rgba(148,163,184,0.4);
-            color: var(--muted);
-            margin-right: 0.4rem;
-            font-size: 0.75rem;
-        }
-
-        section {
-            max-width: 960px;
-            margin: auto;
-            padding: 1.5rem 1.25rem;
-        }
-
-        h2 {
-            font-size: 1.3rem;
-            margin-bottom: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: 0.8rem;
-            padding: 1rem 1.25rem;
-            margin-bottom: 1rem;
-        }
-
-        pre {
-            background: var(--code);
-            border: 1px solid var(--border);
-            padding: 0.75rem;
-            border-radius: 0.6rem;
-            overflow-x: auto;
-            font-family: var(--mono);
-            font-size: 0.85rem;
-        }
-
-        .callout {
-            background: rgba(59,130,246,0.15);
-            border-left: 3px solid var(--accent);
-            padding: 0.75rem 1rem;
-            border-radius: 0.4rem;
-            margin: 0.75rem 0;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--muted);
-            font-size: 0.85rem;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/style.css">
+    <script defer src="assets/theme.js"></script>
 </head>
-
 <body>
 
-<header>
-    <nav>
-        <div><strong>ThinkPad X1C4 EFI</strong></div>
-        <div>
-            <a href="#about">About</a>
-            <a href="#hardware">Hardware</a>
-            <a href="#guide">Guide</a>
-            <a href="#post">Post‑Install</a>
+<div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="site-title">ThinkPad X1C4<br>Catalina EFI Guide</div>
         </div>
-    </nav>
-</header>
 
-<div class="hero">
-    <h1>OpenCore EFI Guide for<br><span>ThinkPad X1 Carbon 4th Gen</span></h1>
-    <p>A complete, Catalina‑optimized EFI build guide for the ThinkPad X1C4. Stable Wi‑Fi, Bluetooth, audio, sleep, and full DRM support.</p>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="bios.html" class="nav-link">BIOS Setup</a>
+            <a href="installer.html" class="nav-link">Installer</a>
+            <a href="kexts.html" class="nav-link">Kexts</a>
+            <a href="propertree.html" class="nav-link">ProperTree</a>
+            <a href="smbios.html" class="nav-link">SMBIOS / GenSMBIOS</a>
+            <a href="acpi.html" class="nav-link">ACPI</a>
+            <a href="config.html" class="nav-link">Config.plist</a>
+            <a href="postinstall.html" class="nav-link">Post‑Install</a>
+        </nav>
 
-    <div style="margin-top:1rem;">
-        <span class="tag">macOS Catalina</span>
-        <span class="tag">OpenCore</span>
-        <span class="tag">Intel Wi‑Fi</span>
-        <span class="tag">Hackintosh</span>
-    </div>
+        <div class="sidebar-footer">
+            <span class="sidebar-note">Dortania‑style docs · Static HTML</span>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+        <header class="topbar">
+            <div class="topbar-title">Home</div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+        </header>
+
+        <article class="page">
+            <h1>ThinkPad X1C4 Catalina EFI Guide</h1>
+            <p class="lead">
+                A structured, Dortania‑style documentation site for running macOS Catalina on the ThinkPad X1 Carbon 4th Gen
+                using OpenCore. This guide walks you from BIOS setup to post‑install tuning.
+            </p>
+
+            <div class="card-grid">
+                <a class="card" href="bios.html">
+                    <h2>BIOS Setup</h2>
+                    <p>Configure firmware settings for UEFI, SATA, Secure Boot, and more.</p>
+                </a>
+
+                <a class="card" href="installer.html">
+                    <h2>Create Catalina Installer</h2>
+                    <p>Build a USB installer using the official Catalina app and proper command‑line tools.</p>
+                </a>
+
+                <a class="card" href="kexts.html">
+                    <h2>Kext Downloads</h2>
+                    <p>Direct links and explanations for Lilu, WhateverGreen, VirtualSMC, itlwm, IntelBluetooth, and more.</p>
+                </a>
+
+                <a class="card" href="propertree.html">
+                    <h2>ProperTree Guide</h2>
+                    <p>Learn how to open config.plist, run OC Snapshot, enable kexts, and manage ACPI entries.</p>
+                </a>
+
+                <a class="card" href="smbios.html">
+                    <h2>SMBIOS / GenSMBIOS</h2>
+                    <p>Generate a proper MacBookPro13,1 SMBIOS and correctly populate PlatformInfo → Generic.</p>
+                </a>
+
+                <a class="card" href="acpi.html">
+                    <h2>ACPI</h2>
+                    <p>Understand SSDTs, EC fixes, USB mapping basics, and how to wire them into OpenCore.</p>
+                </a>
+
+                <a class="card" href="config.html">
+                    <h2>Config.plist Editing</h2>
+                    <p>Walkthrough of key OpenCore sections tailored for the X1C4 on Catalina.</p>
+                </a>
+
+                <a class="card" href="postinstall.html">
+                    <h2>Post‑Install</h2>
+                    <p>Finishing touches: power management, audio tweaks, Bluetooth, and Apple services.</p>
+                </a>
+            </div>
+
+            <section class="section">
+                <h2>Target Hardware</h2>
+                <ul>
+                    <li>ThinkPad X1 Carbon 4th Gen (X1C4)</li>
+                    <li>Intel Skylake CPU</li>
+                    <li>Intel HD Graphics</li>
+                    <li>Intel Dual Band Wireless‑AC 8260 (with itlwm)</li>
+                    <li>Intel Bluetooth (IntelBluetoothFirmware + Injector)</li>
+                    <li>Conexant CX11852 audio (AppleALC)</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Why Catalina?</h2>
+                <p>
+                    Catalina (10.15) is a sweet spot for Skylake ThinkPads: stable GPU acceleration, working Intel Wi‑Fi via itlwm,
+                    Intel Bluetooth support, and functional DRM in Safari (Netflix, Apple TV+, Prime Video).
+                </p>
+            </section>
+
+            <section class="section">
+                <h2>Suggested Reading Order</h2>
+                <ol>
+                    <li><a href="bios.html">BIOS Setup</a></li>
+                    <li><a href="installer.html">Create Catalina Installer</a></li>
+                    <li><a href="kexts.html">Kext Downloads</a></li>
+                    <li><a href="propertree.html">ProperTree Guide</a></li>
+                    <li><a href="smbios.html">SMBIOS / GenSMBIOS</a></li>
+                    <li><a href="acpi.html">ACPI</a></li>
+                    <li><a href="config.html">Config.plist Editing</a></li>
+                    <li><a href="postinstall.html">Post‑Install</a></li>
+                </ol>
+            </section>
+
+            <footer class="page-footer">
+                <p>ThinkPad X1C4 Catalina EFI Guide · Static docs · Inspired by Dortania</p>
+            </footer>
+        </article>
+    </main>
 </div>
-
-<section id="about">
-    <h2>About This EFI</h2>
-    <div class="card">
-        This guide teaches you how to build a clean, stable EFI for macOS Catalina (10.15) on the ThinkPad X1 Carbon 4th Gen.
-        Catalina is the newest macOS version with full support for:
-        <ul>
-            <li>Intel Wi‑Fi (itlwm Catalina build)</li>
-            <li>Intel Bluetooth (Firmware + Injector)</li>
-            <li>Skylake iGPU acceleration</li>
-            <li>Safari DRM (Netflix, Apple TV+, Prime Video)</li>
-        </ul>
-    </div>
-</section>
-
-<section id="hardware">
-    <h2>Hardware Profile</h2>
-
-    <div class="card">
-        <strong>Supported configuration:</strong>
-        <ul>
-            <li>ThinkPad X1 Carbon 4th Gen</li>
-            <li>Intel Skylake CPU</li>
-            <li>Intel HD Graphics</li>
-            <li>Intel Dual Band Wireless‑AC 8260</li>
-            <li>Intel Bluetooth</li>
-            <li>Conexant CX11852 audio</li>
-        </ul>
-    </div>
-</section>
-
-<section id="guide">
-    <h2>EFI Build Guide (Catalina)</h2>
-
-    <div class="card">
-        <h3>1. BIOS Setup</h3>
-        <ul>
-            <li>Disable Secure Boot</li>
-            <li>Enable UEFI only</li>
-            <li>Disable Legacy Boot</li>
-            <li>Set SATA to AHCI</li>
-        </ul>
-    </div>
-
-    <div class="card">
-        <h3>2. Create Catalina Installer</h3>
-        <pre>sudo /Applications/Install\ macOS\ Catalina.app/Contents/Resources/createinstallmedia --volume /Volumes/USB</pre>
-    </div>
-
-    <div class="card">
-        <h3>3. Add OpenCore Base Files</h3>
-        <pre>
-EFI/
-  BOOT/BOOTx64.efi
-  OC/
-    OpenCore.efi
-    ACPI/
-    Kexts/
-    Drivers/
-    config.plist
-        </pre>
-    </div>
-
-    <div class="card">
-        <h3>4. Required Kexts</h3>
-        <ul>
-            <li>Lilu.kext</li>
-            <li>VirtualSMC.kext</li>
-            <li>WhateverGreen.kext</li>
-            <li>AppleALC.kext</li>
-            <li>VoodooPS2Controller.kext</li>
-        </ul>
-    </div>
-
-    <div class="card">
-        <h3>5. Wi‑Fi (Catalina)</h3>
-        <p>Use the Catalina build of:</p>
-        <pre>itlwm.kext</pre>
-        <div class="callout">Do NOT use AirportItlwm — that is for Big Sur and newer.</div>
-    </div>
-
-    <div class="card">
-        <h3>6. Bluetooth</h3>
-        <pre>
-IntelBluetoothFirmware.kext
-IntelBluetoothInjector.kext
-        </pre>
-    </div>
-
-    <div class="card">
-        <h3>7. SMBIOS</h3>
-        <pre>MacBookPro13,1</pre>
-        <p>Generate using GenSMBIOS:</p>
-        <ul>
-            <li>Serial Number</li>
-            <li>MLB</li>
-            <li>System UUID</li>
-            <li>ROM (MAC address)</li>
-        </ul>
-    </div>
-
-    <div class="card">
-        <h3>8. Install macOS</h3>
-        <p>Boot from USB → Install Catalina → Copy EFI to internal drive.</p>
-    </div>
-</section>
-
-<section id="post">
-    <h2>Post‑Install Notes</h2>
-    <div class="card">
-        <p>Catalina provides the best stability for Skylake ThinkPads. DRM works, Intel Wi‑Fi is stable, and Bluetooth pairing is reliable.</p>
-    </div>
-</section>
-
-<footer>
-    ThinkPad X1 Carbon 4th Gen · Catalina EFI Guide · Powered by GitHub Pages
-</footer>
 
 </body>
 </html>
