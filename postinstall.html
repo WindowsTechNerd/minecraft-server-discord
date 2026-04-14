@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <title>Post‑Install - ThinkPad X1C4 Catalina EFI Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/style.css">
+    <script defer src="assets/theme.js"></script>
+</head>
+<body>
+
+<div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="site-title">ThinkPad X1C4<br>Catalina EFI Guide</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="bios.html" class="nav-link">BIOS Setup</a>
+            <a href="installer.html" class="nav-link">Installer</a>
+            <a href="kexts.html" class="nav-link">Kexts</a>
+            <a href="propertree.html" class="nav-link">ProperTree</a>
+            <a href="smbios.html" class="nav-link">SMBIOS / GenSMBIOS</a>
+            <a href="acpi.html" class="nav-link">ACPI</a>
+            <a href="config.html" class="nav-link">Config.plist</a>
+            <a href="postinstall.html" class="nav-link active">Post‑Install</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="sidebar-note">Dortania‑style docs · Static HTML</span>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+        <header class="topbar">
+            <div class="topbar-title">Post‑Install</div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+        </header>
+
+        <article class="page">
+            <h1>Post‑Install</h1>
+            <p class="lead">
+                Finishing touches after successful Catalina installation on your ThinkPad X1C4.
+                Optimize power management, audio, Bluetooth, and Apple services.
+            </p>
+
+            <section class="section">
+                <h2>Initial Setup</h2>
+                <ol>
+                    <li>Complete the macOS setup wizard.</li>
+                    <li>Install Xcode Command Line Tools: <code>xcode-select --install</code></li>
+                    <li>Disable SIP: Boot into Recovery, run <code>csrutil disable</code></li>
+                    <li>Reboot and mount your EFI partition.</li>
+                </ol>
+            </section>
+
+            <section class="section">
+                <h2>Power Management</h2>
+                <p>Ensure proper CPU power management:</p>
+                <ul>
+                    <li>Verify XCPM is working in IORegistryExplorer.</li>
+                    <li>Check CPU frequencies with Intel Power Gadget.</li>
+                    <li>Install SSDT-PLUG if not already done.</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Audio Setup</h2>
+                <p>Configure Conexant CX11852 audio:</p>
+                <ol>
+                    <li>Ensure AppleALC.kext is loaded.</li>
+                    <li>Use ALCPlugFix for combo jack functionality.</li>
+                    <li>Test audio output and input.</li>
+                </ol>
+            </section>
+
+            <section class="section">
+                <h2>Wi-Fi & Bluetooth</h2>
+                <ul>
+                    <li>itlwm should provide Wi-Fi connectivity.</li>
+                    <li>IntelBluetoothFirmware + Injector for Bluetooth.</li>
+                    <li>Test Handoff, Continuity, and AirDrop.</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Graphics & Display</h2>
+                <ul>
+                    <li>Intel HD Graphics 520 should work out of the box.</li>
+                    <li>Adjust brightness with Fn keys.</li>
+                    <li>Test DRM in Safari (Netflix, etc.).</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Trackpad & Keyboard</h2>
+                <ul>
+                    <li>VoodooPS2Controller handles PS2 devices.</li>
+                    <li>Configure trackpad gestures in System Preferences.</li>
+                    <li>Map Fn keys if needed.</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>USB Ports</h2>
+                <p>Test all USB ports and create custom SSDT-USB if needed.</p>
+            </section>
+
+            <section class="section">
+                <h2>Apple Services</h2>
+                <ul>
+                    <li>iCloud, iMessage, FaceTime should work with proper SMBIOS.</li>
+                    <li>Sign in to iCloud and test services.</li>
+                    <li>Enable Find My Mac.</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Final EFI Cleanup</h2>
+                <ol>
+                    <li>Remove debug kexts (USBInjectAll, etc.).</li>
+                    <li>Disable verbose boot.</li>
+                    <li>Update OpenCore and kexts to latest versions.</li>
+                </ol>
+            </section>
+
+            <footer class="page-footer">
+                <p>ThinkPad X1C4 Catalina EFI Guide · Static docs · Inspired by Dortania</p>
+            </footer>
+        </article>
+    </main>
+</div>
+
+</body>
+</html>

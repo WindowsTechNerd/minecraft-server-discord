@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <title>BIOS Setup - ThinkPad X1C4 Catalina EFI Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/style.css">
+    <script defer src="assets/theme.js"></script>
+</head>
+<body>
+
+<div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="site-title">ThinkPad X1C4<br>Catalina EFI Guide</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="bios.html" class="nav-link active">BIOS Setup</a>
+            <a href="installer.html" class="nav-link">Installer</a>
+            <a href="kexts.html" class="nav-link">Kexts</a>
+            <a href="propertree.html" class="nav-link">ProperTree</a>
+            <a href="smbios.html" class="nav-link">SMBIOS / GenSMBIOS</a>
+            <a href="acpi.html" class="nav-link">ACPI</a>
+            <a href="config.html" class="nav-link">Config.plist</a>
+            <a href="postinstall.html" class="nav-link">Post‑Install</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="sidebar-note">Dortania‑style docs · Static HTML</span>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+        <header class="topbar">
+            <div class="topbar-title">BIOS Setup</div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+        </header>
+
+        <article class="page">
+            <h1>BIOS Setup</h1>
+            <p class="lead">
+                Configure your ThinkPad X1C4's firmware for optimal compatibility with OpenCore and macOS Catalina.
+                These settings ensure UEFI booting, disable incompatible features, and prepare the system for Hackintosh installation.
+            </p>
+
+            <section class="section">
+                <h2>Accessing BIOS</h2>
+                <ol>
+                    <li>Power on or restart your ThinkPad X1C4.</li>
+                    <li>Immediately press <kbd>F1</kbd> repeatedly when the Lenovo logo appears to enter BIOS Setup.</li>
+                    <li>If you miss it, restart and try again.</li>
+                </ol>
+            </section>
+
+            <section class="section">
+                <h2>Recommended BIOS Settings</h2>
+                <p>Navigate through the BIOS menus and adjust the following settings:</p>
+
+                <h3>Security Tab</h3>
+                <ul>
+                    <li><strong>Secure Boot:</strong> Disabled</li>
+                    <li><strong>Intel SGX:</strong> Disabled</li>
+                    <li><strong>Intel Platform Trust Technology:</strong> Disabled</li>
+                </ul>
+
+                <h3>Startup Tab</h3>
+                <ul>
+                    <li><strong>UEFI/Legacy Boot:</strong> UEFI Only</li>
+                    <li><strong>CSM Support:</strong> Disabled</li>
+                    <li><strong>Boot Mode:</strong> Quick</li>
+                </ul>
+
+                <h3>Restart Tab</h3>
+                <ul>
+                    <li><strong>OS Optimized Defaults:</strong> Disabled</li>
+                </ul>
+
+                <h3>Config Tab → Power</h3>
+                <ul>
+                    <li><strong>Sleep State:</strong> Linux (for better compatibility)</li>
+                </ul>
+
+                <h3>Config Tab → USB</h3>
+                <ul>
+                    <li><strong>Always On USB:</strong> Enabled</li>
+                </ul>
+
+                <h3>Config Tab → Keyboard/Mouse</h3>
+                <ul>
+                    <li><strong>Fn and Ctrl Key swap:</strong> Disabled</li>
+                    <li><strong>F1-F12 as Primary Function:</strong> Disabled</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Saving Changes</h2>
+                <ol>
+                    <li>Press <kbd>F10</kbd> to save changes and exit.</li>
+                    <li>Confirm by pressing <kbd>Y</kbd> when prompted.</li>
+                    <li>The system will restart with the new BIOS settings.</li>
+                </ol>
+            </section>
+
+            <section class="section">
+                <h2>Troubleshooting</h2>
+                <ul>
+                    <li>If you can't access BIOS, try pressing <kbd>Enter</kbd> then <kbd>F1</kbd> during boot.</li>
+                    <li>Ensure you're pressing the key before the Windows logo appears.</li>
+                    <li>If settings don't stick, check for BIOS updates from Lenovo's website.</li>
+                </ul>
+            </section>
+
+            <footer class="page-footer">
+                <p>ThinkPad X1C4 Catalina EFI Guide · Static docs · Inspired by Dortania</p>
+            </footer>
+        </article>
+    </main>
+</div>
+
+</body>
+</html>

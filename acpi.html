@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <title>ACPI - ThinkPad X1C4 Catalina EFI Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/style.css">
+    <script defer src="assets/theme.js"></script>
+</head>
+<body>
+
+<div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="site-title">ThinkPad X1C4<br>Catalina EFI Guide</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="bios.html" class="nav-link">BIOS Setup</a>
+            <a href="installer.html" class="nav-link">Installer</a>
+            <a href="kexts.html" class="nav-link">Kexts</a>
+            <a href="propertree.html" class="nav-link">ProperTree</a>
+            <a href="smbios.html" class="nav-link">SMBIOS / GenSMBIOS</a>
+            <a href="acpi.html" class="nav-link active">ACPI</a>
+            <a href="config.html" class="nav-link">Config.plist</a>
+            <a href="postinstall.html" class="nav-link">Post‑Install</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="sidebar-note">Dortania‑style docs · Static HTML</span>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+        <header class="topbar">
+            <div class="topbar-title">ACPI</div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+        </header>
+
+        <article class="page">
+            <h1>ACPI</h1>
+            <p class="lead">
+                Understanding and implementing ACPI patches for the ThinkPad X1C4.
+                Learn about SSDTs, EC fixes, and how to integrate them into your OpenCore setup.
+            </p>
+
+            <section class="section">
+                <h2>What is ACPI?</h2>
+                <p>ACPI (Advanced Configuration and Power Interface) is a standard for device configuration and power management. In Hackintosh, we use SSDTs (System Service Description Tables) to:</p>
+                <ul>
+                    <li>Fix device enumeration issues</li>
+                    <li>Implement missing functionality</li>
+                    <li>Patch incompatible ACPI tables</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Essential SSDTs for X1C4</h2>
+
+                <h3>SSDT-EC</h3>
+                <p>Embedded Controller fix. Required for proper power management.</p>
+                <p><a href="https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/AcpiSamples/SSDT-EC.dsl" target="_blank">Download SSDT-EC.dsl</a></p>
+
+                <h3>SSDT-PLUG</h3>
+                <p>CPU power management plugin. Enables XCPM.</p>
+                <p><a href="https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/AcpiSamples/SSDT-PLUG.dsl" target="_blank">Download SSDT-PLUG.dsl</a></p>
+
+                <h3>SSDT-PNLF</h3>
+                <p>Backlight control for Intel HD Graphics.</p>
+                <p><a href="https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/AcpiSamples/SSDT-PNLF.dsl" target="_blank">Download SSDT-PNLF.dsl</a></p>
+            </section>
+
+            <section class="section">
+                <h2>Compiling SSDTs</h2>
+                <ol>
+                    <li>Download the .dsl files from the links above.</li>
+                    <li>Use MaciASL to open and compile them.</li>
+                    <li>Save as .aml files in EFI/OC/ACPI/.</li>
+                </ol>
+                <p><strong>Note:</strong> For SSDT-EC, you may need to adjust the EC path (_SB.PCI0.LPCB.EC0) based on your DSDT.</p>
+            </section>
+
+            <section class="section">
+                <h2>Adding to Config.plist</h2>
+                <p>In ProperTree, navigate to ACPI → Add:</p>
+                <ul>
+                    <li>Comment: SSDT-EC</li>
+                    <li>Enabled: true</li>
+                    <li>Path: SSDT-EC.aml</li>
+                </ul>
+                <p>Repeat for each SSDT. Run OC Snapshot to update.</p>
+            </section>
+
+            <section class="section">
+                <h2>USB Mapping (Optional)</h2>
+                <p>For optimal USB, create a custom SSDT-USB using USBInjectAll and USBToolBox:</p>
+                <ol>
+                    <li>Boot with USBInjectAll.kext.</li>
+                    <li>Use USBToolBox to discover ports.</li>
+                    <li>Generate SSDT-USB.aml.</li>
+                    <li>Replace USBInjectAll with the custom SSDT.</li>
+                </ol>
+            </section>
+
+            <section class="section">
+                <h2>Troubleshooting</h2>
+                <ul>
+                    <li>Use SSDTTime to generate basic SSDTs automatically.</li>
+                    <li>Check IORegistryExplorer to verify ACPI loading.</li>
+                    <li>If you have sleep issues, ensure SSDT-EC is properly configured.</li>
+                </ul>
+            </section>
+
+            <footer class="page-footer">
+                <p>ThinkPad X1C4 Catalina EFI Guide · Static docs · Inspired by Dortania</p>
+            </footer>
+        </article>
+    </main>
+</div>
+
+</body>
+</html>

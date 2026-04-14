@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Catalina Installer - ThinkPad X1C4 Catalina EFI Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/style.css">
+    <script defer src="assets/theme.js"></script>
+</head>
+<body>
+
+<div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="site-title">ThinkPad X1C4<br>Catalina EFI Guide</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="bios.html" class="nav-link">BIOS Setup</a>
+            <a href="installer.html" class="nav-link active">Installer</a>
+            <a href="kexts.html" class="nav-link">Kexts</a>
+            <a href="propertree.html" class="nav-link">ProperTree</a>
+            <a href="smbios.html" class="nav-link">SMBIOS / GenSMBIOS</a>
+            <a href="acpi.html" class="nav-link">ACPI</a>
+            <a href="config.html" class="nav-link">Config.plist</a>
+            <a href="postinstall.html" class="nav-link">Post‑Install</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="sidebar-note">Dortania‑style docs · Static HTML</span>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+        <header class="topbar">
+            <div class="topbar-title">Create Catalina Installer</div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+        </header>
+
+        <article class="page">
+            <h1>Create Catalina Installer</h1>
+            <p class="lead">
+                Build a bootable USB installer for macOS Catalina using the official installer app and command-line tools.
+                This process creates a clean, unmodified installer that works with OpenCore.
+            </p>
+
+            <section class="section">
+                <h2>Prerequisites</h2>
+                <ul>
+                    <li>A USB drive with at least 16GB capacity (USB 3.0 recommended)</li>
+                    <li>macOS High Sierra (10.13.6) or later as the host system</li>
+                    <li>macOS Catalina installer downloaded from the Mac App Store</li>
+                    <li>ProperTree and your EFI folder ready</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Download Catalina</h2>
+                <ol>
+                    <li>Open the Mac App Store on your host Mac.</li>
+                    <li>Search for "macOS Catalina" and download it.</li>
+                    <li>The installer will appear in your Applications folder as "Install macOS Catalina.app".</li>
+                </ol>
+                <p><strong>Note:</strong> If you don't have access to the Mac App Store, you can use gibMacOS or other tools to obtain the installer.</p>
+            </section>
+
+            <section class="section">
+                <h2>Format the USB Drive</h2>
+                <p>Use Disk Utility to prepare your USB drive:</p>
+                <ol>
+                    <li>Insert your USB drive.</li>
+                    <li>Open Disk Utility (Applications → Utilities → Disk Utility).</li>
+                    <li>Select your USB drive in the sidebar.</li>
+                    <li>Click "Erase" at the top.</li>
+                    <li>Name: "Catalina" (or your preference)</li>
+                    <li>Format: Mac OS Extended (Journaled)</li>
+                    <li>Scheme: GUID Partition Map</li>
+                    <li>Click "Erase" and confirm.</li>
+                </ol>
+            </section>
+
+            <section class="section">
+                <h2>Create the Installer</h2>
+                <p>Open Terminal and run the following command:</p>
+                <pre><code>sudo /Applications/Install\ macOS\ Catalina.app/Contents/Resources/createinstallmedia --volume /Volumes/Catalina --nointeraction</code></pre>
+                <p>This will take several minutes. The USB drive will be renamed to "Install macOS Catalina".</p>
+            </section>
+
+            <section class="section">
+                <h2>Add OpenCore EFI</h2>
+                <ol>
+                    <li>Mount the EFI partition of your USB drive (use Disk Utility or mount_efi.sh script).</li>
+                    <li>Copy your prepared EFI folder to the mounted EFI partition.</li>
+                    <li>Ensure the EFI folder contains your config.plist, drivers, kexts, and ACPI files.</li>
+                </ol>
+            </section>
+
+            <section class="section">
+                <h2>Verify the Installer</h2>
+                <p>Restart your Mac and hold Option during boot to see the boot menu. You should see "Install macOS Catalina" as a boot option.</p>
+            </section>
+
+            <footer class="page-footer">
+                <p>ThinkPad X1C4 Catalina EFI Guide · Static docs · Inspired by Dortania</p>
+            </footer>
+        </article>
+    </main>
+</div>
+
+</body>
+</html>
